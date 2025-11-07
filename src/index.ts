@@ -1,24 +1,37 @@
 import express from "express";
 import nunjucks from "nunjucks";
-import bodyParser from "body-parser";
 import path from "path";
-
-import { Request, Response } from "express";
+import { PostController } from "./controller/postController";
 
 const app = express();
-const viewsPath = path.join(process.cwd(), 'src/view');
 
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
+// статика (если понадобится)
+app.use(express.static(path.join(__dirname, "..", "public")));
+
+// парсинг body
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-nunjucks.configure(viewsPath, {
+// nunjucks
+nunjucks.configure(path.join(__dirname, "view"), {
   autoescape: true,
-  express: app
+  express: app,
 });
 
-app.get("/", (req: Request, res: Response) => {
-  res.render("index.njk", { posts: [] });
+// главная (пока без данных)
+app.get("/", (req, res) => {
+  res.render("index.njk", { title: "Home", posts: [] });
 });
 
-app.listen(3000, () => console.log("Server running at http://localhost:3000"));
+// админ-маршруты CRUD
+app.get("/admin", PostController.list);
+app.get("/admin/new", PostController.newForm);
+app.post("/admin/new", PostController.create);
+app.get("/admin/edit/:id", PostController.editForm);
+app.post("/admin/edit/:id", PostController.update);
+app.get("/admin/delete/:id", PostController.delete);
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
