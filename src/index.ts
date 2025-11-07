@@ -2,28 +2,26 @@ import express from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 import { PostController } from "./controller/postController";
+import { PostModel } from "./model/postModel";
 
 const app = express();
 
-// статика (если понадобится)
 app.use(express.static(path.join(__dirname, "..", "public")));
 
-// парсинг body
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// nunjucks
 nunjucks.configure(path.join(__dirname, "view"), {
   autoescape: true,
   express: app,
 });
 
-// главная (пока без данных)
+
 app.get("/", (req, res) => {
-  res.render("index.njk", { title: "Home", posts: [] });
+  const posts = PostModel.getAll();
+  res.render("index.njk", { title: "Home", posts });
 });
 
-// админ-маршруты CRUD
 app.get("/admin", PostController.list);
 app.get("/admin/new", PostController.newForm);
 app.post("/admin/new", PostController.create);
