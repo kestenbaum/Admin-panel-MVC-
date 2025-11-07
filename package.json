@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/kestenbaum/Admin-panel-MVC-#readme",
   "dependencies": {
+    "@picocss/pico": "^2.1.1",
     "body-parser": "^2.2.0",
     "express": "^5.1.0",
     "nunjucks": "^3.2.4"

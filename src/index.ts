@@ -6,8 +6,8 @@ import { PostModel } from "./model/postModel";
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "..", "public")));
-
+app.set('views', path.join(__dirname, 'view'))
+app.use('/static', express.static(path.join(__dirname, 'view', 'static')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

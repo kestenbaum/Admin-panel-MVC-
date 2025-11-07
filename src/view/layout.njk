@@ -4,27 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title or "Blog" }}</title>
-  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+  <link rel="stylesheet" href="/static/reset.css">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+  >
+  <link rel="stylesheet" href="/editor.css">
 </head>
 <body>
-  <header class="container">
-    <nav>
-      <ul>
-        <li><strong>My Blog</strong></li>
-      </ul>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/admin">Admin</a></li>
-      </ul>
-    </nav>
-  </header>
-
+  {% include "components/header.njk" %}
   <main class="container">
     {% block content %}{% endblock %}
   </main>
-
-  <footer class="container">
-    <small>&copy; 2025 Blog Demo</small>
-  </footer>
+  {% include "components/footer.njk" %}
 </body>
 </html>
